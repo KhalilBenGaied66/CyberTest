@@ -1,0 +1,53 @@
+{
+  "_comment": "Versioned scoring weights. Change one factor or cap at a time, bump the model version, and rerun the full fixture regression suite. Historical cases keep the model_version they were scored with.",
+  "bands": [
+    {"band": "low", "min": 0, "max": 29},
+    {"band": "medium", "min": 30, "max": 59},
+    {"band": "high", "min": 60, "max": 100}
+  ],
+  "models": {
+    "email-1.0": {
+      "profile": "email",
+      "categories": {"reputation": 35, "authentication": 20, "identity": 15, "content": 30},
+      "factors": {
+        "rep_exact": {"category": "reputation", "points": 30},
+        "rep_vt_high": {"category": "reputation", "points": 25},
+        "rep_vt_low": {"category": "reputation", "points": 10},
+        "rep_corrob": {"category": "reputation", "points": 5},
+        "auth_dmarc_fail": {"category": "authentication", "points": 10},
+        "auth_spf_fail": {"category": "authentication", "points": 5},
+        "auth_spf_softfail": {"category": "authentication", "points": 3},
+        "auth_dkim_fail": {"category": "authentication", "points": 5},
+        "id_return_path_mismatch": {"category": "identity", "points": 5},
+        "id_reply_to_mismatch": {"category": "identity", "points": 5},
+        "id_display_name_impersonation": {"category": "identity", "points": 5},
+        "content_dangerous_attachment": {"category": "content", "points": 12},
+        "content_attachment_type_mismatch": {"category": "content", "points": 6},
+        "content_deceptive_link": {"category": "content", "points": 8},
+        "content_credential_lure": {"category": "content", "points": 6},
+        "content_shortener_or_port": {"category": "content", "points": 4}
+      },
+      "reputation_types": ["url", "domain", "ip", "sha256"],
+      "vt_high_threshold": 5
+    },
+    "wazuh-1.0": {
+      "profile": "wazuh",
+      "categories": {"reputation": 40, "behavior": 40, "context": 20},
+      "factors": {
+        "rep_exact": {"category": "reputation", "points": 35},
+        "rep_vt_high": {"category": "reputation", "points": 25},
+        "rep_corrob": {"category": "reputation", "points": 5},
+        "auth_fail_burst": {"category": "behavior", "points": 15},
+        "multi_user": {"category": "behavior", "points": 10},
+        "success_after_fail": {"category": "behavior", "points": 15},
+        "high_severity_no_counts": {"category": "behavior", "points": 10},
+        "privileged_user": {"category": "context", "points": 10},
+        "critical_asset": {"category": "context", "points": 5},
+        "watchlist_source": {"category": "context", "points": 5}
+      },
+      "reputation_types": ["ip"],
+      "vt_high_threshold": 5,
+      "thresholds": {"failures_5m": 10, "distinct_users_5m": 3, "high_level": 10}
+    }
+  }
+}

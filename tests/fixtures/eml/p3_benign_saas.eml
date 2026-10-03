@@ -1,0 +1,41 @@
+Return-Path: <bounces+u123@mail.saas-mailer.example>
+Received: from mx.lab.example (mx.lab.example [10.0.0.25])
+	by mailstore.lab.example (Postfix) with ESMTP id 6C3D4E5F
+	for <alex.analyst@lab.example>; Sat, 03 Oct 2026 06:00:04 +0000
+Authentication-Results: mx.lab.example;
+	spf=pass smtp.mailfrom=bounces+u123@mail.saas-mailer.example;
+	dkim=pass header.d=saas-vendor.example header.s=k1;
+	dmarc=pass header.from=saas-vendor.example
+Received: from mail.saas-mailer.example (mail.saas-mailer.example [203.0.113.80])
+	by mx.lab.example (Postfix) with ESMTPS id 2B3C4D5E
+	for <alex.analyst@lab.example>; Sat, 03 Oct 2026 06:00:03 +0000
+From: SaaS Vendor <notifications@saas-vendor.example>
+Reply-To: support@saas-vendor.example
+To: alex.analyst@lab.example
+Subject: Your weekly usage report is ready
+Date: Sat, 03 Oct 2026 06:00:00 +0000
+Message-ID: <weekly-report-77@saas-vendor.example>
+MIME-Version: 1.0
+Content-Type: multipart/alternative; boundary="b3_p3_alt"
+
+--b3_p3_alt
+Content-Type: text/plain; charset=utf-8
+
+Hi Alex,
+
+Your weekly usage report for the Lab workspace is ready:
+https://app.saas-vendor.example/reports/weekly
+
+The SaaS Vendor team
+
+--b3_p3_alt
+Content-Type: text/html; charset=utf-8
+
+<html><body>
+<p>Hi Alex,</p>
+<p>Your weekly usage report for the Lab workspace is ready.
+<a href="https://app.saas-vendor.example/reports/weekly">View report</a></p>
+<p>The SaaS Vendor team</p>
+</body></html>
+
+--b3_p3_alt--

@@ -1,0 +1,37 @@
+<!--
+  Phishing SOAR lab rules for /var/ossec/etc/rules/local_rules.xml (or a separate rules file).
+
+  Validate on your manager before relying on them:
+    /var/ossec/bin/wazuh-logtest
+  Correlation semantics (frequency/timeframe with if_matched_sid) differ subtly between
+  Wazuh versions; replay the sample sshd lines from docs/analyst-playbook.md and adjust
+  `frequency` until rule 100110 fires exactly once after a 5712 burst.
+
+  Rule IDs 100110 and 100120 are referenced by config/lab-policy.json defaults
+  (wazuh_allowed_rule_ids, wazuh_success_after_failure_rule_ids).
+-->
+<group name="soar_lab,">
+
+  <!-- Successful SSH login from a source that just triggered the sshd brute-force rule. -->
+  <rule id="100110" level="12" frequency="2" timeframe="600">
+    <if_sid>5715</if_sid>
+    <if_matched_sid>5712</if_matched_sid>
+    <same_source_ip />
+    <description>sshd: authentication success from $(srcip) after brute force (SOAR lab)</description>
+    <mitre>
+      <id>T1110</id>
+    </mitre>
+    <group>authentication_success,</group>
+  </rule>
+
+  <!-- Authentication failure from an IP on the locally managed malicious-IP CDB list.
+       Add <list>etc/lists/soar-malicious-ip</list> to the <ruleset> block in ossec.conf and
+       generate the list from data/ioc/*.jsonl (type=ip) as "198.51.100.44:" lines. -->
+  <rule id="100120" level="10">
+    <if_group>authentication_failed</if_group>
+    <list field="srcip" lookup="address_match_key">etc/lists/soar-malicious-ip</list>
+    <description>Authentication attempt from IP on the SOAR malicious-IP list: $(srcip)</description>
+    <group>soar_malicious_ip,</group>
+  </rule>
+
+</group>

@@ -1,0 +1,27 @@
+# Lab services for the SOAR API and a local mail catcher.
+# Shuffle and Wazuh are deployed from their upstream instructions (docs/architecture.md#lab-deployment).
+# Not yet exercised: validate on the lab VM and pin image tags you have tested.
+services:
+  soar-api:
+    build: .
+    env_file: .env
+    environment:
+      SOAR_DATA_DIR: /var/lib/soar
+      SOAR_POLICY_FILE: /app/config/lab-policy.json
+      SOAR_IOC_PATHS: /app/data/ioc/local_iocs.seed.jsonl
+      SOAR_SMTP_HOST: mailpit
+    ports:
+      - "127.0.0.1:8088:8088"   # change to the lab interface only if Shuffle runs on another host
+    volumes:
+      - soar-data:/var/lib/soar
+    restart: unless-stopped
+
+  mailpit:
+    image: axllent/mailpit:latest   # pin to the tag you test with
+    ports:
+      - "127.0.0.1:8025:8025"   # web UI
+      - "127.0.0.1:1025:1025"   # SMTP
+    restart: unless-stopped
+
+volumes:
+  soar-data:

@@ -1,0 +1,36 @@
+{
+  "_comment": "Recorded provider answers for inert lab fixtures. Keys are the exact values the adapters send.",
+  "defaults": {
+    "urlhaus": {
+      "file": "urlhaus_no_results.json"
+    },
+    "threatfox": {
+      "file": "threatfox_no_result.json"
+    },
+    "virustotal": {
+      "status": 404,
+      "body": {
+        "error": {
+          "code": "NotFoundError"
+        }
+      }
+    }
+  },
+  "responses": [
+    {
+      "provider": "urlhaus",
+      "key": "https://xn--prtal-example-i7k.test/login?session=8f2a",
+      "file": "urlhaus_url_p1.json"
+    },
+    {
+      "provider": "threatfox",
+      "key": "13d3f0dc4aff277ab171d369e962c9cae1506d14de4aad97dde685f67d838bc9",
+      "file": "threatfox_hash_p2.json"
+    },
+    {
+      "provider": "threatfox",
+      "key": "198.51.100.44",
+      "file": "threatfox_ip_w1.json"
+    }
+  ]
+}

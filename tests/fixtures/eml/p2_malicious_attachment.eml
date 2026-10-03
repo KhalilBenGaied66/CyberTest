@@ -1,0 +1,41 @@
+Return-Path: <billing@vendor-invoices.test>
+Received: from mx.lab.example (mx.lab.example [10.0.0.25])
+	by mailstore.lab.example (Postfix) with ESMTP id 5B2C3D4E
+	for <ap-team@lab.example>; Fri, 02 Oct 2026 14:20:03 +0000
+Authentication-Results: mx.lab.example;
+	spf=pass smtp.mailfrom=billing@vendor-invoices.test;
+	dkim=pass header.d=vendor-invoices.test header.s=s1;
+	dmarc=pass header.from=vendor-invoices.test
+Received: from smtp.vendor-invoices.test (smtp.vendor-invoices.test [203.0.113.55])
+	by mx.lab.example (Postfix) with ESMTPS id 1A2B3C4D
+	for <ap-team@lab.example>; Fri, 02 Oct 2026 14:20:02 +0000
+From: Vendor Billing <billing@vendor-invoices.test>
+To: ap-team@lab.example
+Subject: Invoice INV-2026-0912 for September
+Date: Fri, 02 Oct 2026 14:19:58 +0000
+Message-ID: <inv-2026-0912@vendor-invoices.test>
+MIME-Version: 1.0
+Content-Type: multipart/mixed; boundary="b2_p2_mixed"
+
+--b2_p2_mixed
+Content-Type: text/plain; charset=utf-8
+
+Hello,
+
+Please find attached invoice INV-2026-0912 for September services.
+Payment terms are 30 days.
+
+Regards,
+Vendor Billing
+
+--b2_p2_mixed
+Content-Type: application/octet-stream; name="invoice.docm"
+Content-Disposition: attachment; filename="invoice.docm"
+Content-Transfer-Encoding: base64
+
+UEsDBBQAAAAAAABgPl0SRB1ATAAAAEwAAAAKAAAAUkVBRE1FLnR4dEluZXJ0IFNPQVIgbGFiIGZp
+eHR1cmUuIFRoaXMgaXMgbm90IGEgcmVhbCBkb2N1bWVudCBhbmQgY29udGFpbnMgbm8gbWFjcm9z
+LgpQSwECFAMUAAAAAAAAYD5dEkQdQEwAAABMAAAACgAAAAAAAAAAAAAAgAEAAAAAUkVBRE1FLnR4
+dFBLBQYAAAAAAQABADgAAAB0AAAAAAA=
+
+--b2_p2_mixed--

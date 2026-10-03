@@ -1,0 +1,22 @@
+<!--
+  Add inside <ossec_config> on the Wazuh manager, then restart wazuh-manager.
+
+  Install the script:
+    cp wazuh/shuffle-integration.example.py /var/ossec/integrations/custom-soar.py
+    cp /var/ossec/integrations/slack /var/ossec/integrations/custom-soar   # reuse the stock shell launcher
+    chown root:wazuh /var/ossec/integrations/custom-soar*
+    chmod 750 /var/ossec/integrations/custom-soar*
+  The stock launcher executes the .py file with the same base name using Wazuh's bundled Python.
+
+  hook_url: the Shuffle WF-WAZUH-INTAKE webhook (or the SOAR API /v1/intake/wazuh for testing).
+  api_key:  sent as "Authorization: Bearer <api_key>"; configure the Shuffle webhook to require it.
+  Only the listed rule IDs are forwarded; the SOAR also re-checks its own allowlist.
+-->
+<integration>
+  <name>custom-soar</name>
+  <hook_url>http://SHUFFLE_HOST:3001/api/v1/hooks/webhook_REPLACE_ME</hook_url>
+  <api_key>REPLACE_WITH_RANDOM_TOKEN</api_key>
+  <rule_id>5712,5720,5551,60204,100110,100120</rule_id>
+  <level>10</level>
+  <alert_format>json</alert_format>
+</integration>

@@ -1,0 +1,35 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://phishing-soar.invalid/schemas/approval.schema.json",
+  "title": "Analyst decision record v1",
+  "description": "Recorded once per case. Approval requires verdict=malicious; rejection requires benign or suspicious_no_action; a timeout is recorded by the system and never contains.",
+  "type": "object",
+  "required": ["approval", "verdict", "reason", "analyst", "approved_actions", "decided_at"],
+  "properties": {
+    "approval": {"enum": ["approved", "rejected", "timeout"]},
+    "verdict": {"enum": ["malicious", "benign", "suspicious_no_action", null]},
+    "reason": {"type": "string", "minLength": 10, "maxLength": 2000},
+    "analyst": {"type": "string", "minLength": 1, "maxLength": 128},
+    "approved_actions": {"type": "array", "items": {"type": "string", "pattern": "^act-[0-9a-f]{12}$"}, "uniqueItems": true},
+    "proposed_action_hash": {"type": "string", "pattern": "^sha256:[0-9a-f]{64}$"},
+    "decided_at": {"type": "string", "pattern": "^\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}(\\.\\d{3})?Z$"},
+    "analyst_active_seconds": {"type": ["number", "null"], "minimum": 0}
+  },
+  "allOf": [
+    {
+      "if": {"properties": {"approval": {"const": "approved"}}},
+      "then": {"required": ["proposed_action_hash"], "properties": {"verdict": {"const": "malicious"}}}
+    },
+    {
+      "if": {"properties": {"approval": {"const": "rejected"}}},
+      "then": {
+        "required": ["proposed_action_hash"],
+        "properties": {"verdict": {"enum": ["benign", "suspicious_no_action"]}, "approved_actions": {"maxItems": 0}}
+      }
+    },
+    {
+      "if": {"properties": {"approval": {"const": "timeout"}}},
+      "then": {"properties": {"analyst": {"const": "system"}, "approved_actions": {"maxItems": 0}}}
+    }
+  ]
+}

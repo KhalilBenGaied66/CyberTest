@@ -1,0 +1,39 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://phishing-soar.invalid/schemas/enrichment-result.schema.json",
+  "title": "EnrichmentResult v1",
+  "description": "One answer per (indicator, provider). status=ok means the provider answered (match true/false); status=unknown means it could not answer and is never equivalent to clean.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version", "provider", "indicator_id", "indicator_type", "indicator_value", "status", "match",
+    "verdict", "confidence", "reason", "details", "fetched_at", "expires_at", "raw_ref", "from_cache"
+  ],
+  "properties": {
+    "schema_version": {"const": "1.0"},
+    "provider": {"enum": ["local_ioc", "urlhaus", "threatfox", "virustotal"]},
+    "indicator_id": {"type": "string", "pattern": "^ind-[0-9a-f]{16}$"},
+    "indicator_type": {"enum": ["url", "domain", "ip", "email", "sha256"]},
+    "indicator_value": {"type": "string"},
+    "status": {"enum": ["ok", "unknown", "not_applicable", "skipped"]},
+    "match": {"type": ["boolean", "null"]},
+    "verdict": {"enum": ["malicious", "suspicious", "no_result", "no_detections", "stale", null]},
+    "confidence": {"type": ["integer", "null"], "minimum": 0, "maximum": 100},
+    "reason": {"type": ["string", "null"]},
+    "details": {"type": "object"},
+    "fetched_at": {"type": ["string", "null"]},
+    "expires_at": {"type": ["string", "null"]},
+    "raw_ref": {"type": ["string", "null"], "pattern": "^sha256:[0-9a-f]{64}$"},
+    "from_cache": {"type": "boolean"}
+  },
+  "allOf": [
+    {
+      "if": {"properties": {"status": {"const": "ok"}}},
+      "then": {"properties": {"match": {"type": "boolean"}, "verdict": {"type": "string"}}}
+    },
+    {
+      "if": {"properties": {"status": {"const": "unknown"}}},
+      "then": {"properties": {"match": {"type": "null"}, "verdict": {"type": "null"}, "reason": {"type": "string"}}}
+    }
+  ]
+}

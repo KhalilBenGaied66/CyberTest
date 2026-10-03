@@ -1,0 +1,31 @@
+# Python
+__pycache__/
+*.py[cod]
+*.egg-info/
+.eggs/
+build/
+dist/
+.venv/
+venv/
+.pytest_cache/
+.ruff_cache/
+.coverage
+htmlcov/
+
+# Secrets and local configuration
+.env
+*.env.local
+
+# Runtime state: cases, raw evidence, audit ledgers, SQLite, tickets, provider downloads
+data/runtime/
+data/demo/
+data/ioc/*mirror*.jsonl
+data/ioc/*.status.json
+data/ioc/downloads/
+*.db
+*.db-wal
+*.db-shm
+
+# Real samples never go to Git; only synthetic fixtures under tests/fixtures/
+samples/*
+!samples/README.md
