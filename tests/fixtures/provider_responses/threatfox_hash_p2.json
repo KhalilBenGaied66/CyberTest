@@ -1,0 +1,23 @@
+{
+  "query_status": "ok",
+  "data": [
+    {
+      "id": "8000001",
+      "ioc": "13d3f0dc4aff277ab171d369e962c9cae1506d14de4aad97dde685f67d838bc9",
+      "threat_type": "payload",
+      "threat_type_desc": "Malware sample",
+      "ioc_type": "sha256_hash",
+      "malware": "win.lab_fixture_loader",
+      "malware_printable": "LabFixtureLoader",
+      "confidence_level": 75,
+      "first_seen": "2026-10-01 08:00:00 UTC",
+      "last_seen": null,
+      "reference": null,
+      "reporter": "lab-fixture",
+      "tags": [
+        "lab-fixture",
+        "docm"
+      ]
+    }
+  ]
+}

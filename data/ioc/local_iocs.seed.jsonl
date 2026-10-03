@@ -1,0 +1,3 @@
+{"confidence": 80, "expires_at": "2027-10-01T00:00:00Z", "first_seen": "2026-10-01T00:00:00Z", "source": "lab-fixture", "tags": ["credential-phish"], "type": "url", "value": "https://xn--prtal-example-i7k.test/login?session=8f2a", "verdict": "malicious"}
+{"confidence": 85, "expires_at": "2027-10-01T00:00:00Z", "first_seen": "2026-10-01T00:00:00Z", "source": "lab-fixture", "tags": ["macro-dropper"], "type": "sha256", "value": "13d3f0dc4aff277ab171d369e962c9cae1506d14de4aad97dde685f67d838bc9", "verdict": "malicious"}
+{"confidence": 90, "expires_at": "2027-10-01T00:00:00Z", "first_seen": "2026-10-01T00:00:00Z", "source": "lab-fixture", "tags": ["brute-force"], "type": "ip", "value": "198.51.100.44", "verdict": "malicious"}

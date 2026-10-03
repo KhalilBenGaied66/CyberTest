@@ -1,0 +1,29 @@
+{
+  "id": "1759454400.90001",
+  "timestamp": "2026-10-03T01:20:00.000+0000",
+  "manager": {
+    "name": "wazuh-lab-manager"
+  },
+  "rule": {
+    "id": "5712",
+    "level": 10,
+    "description": "sshd: brute force trying to get access to the system. Authentication failed.",
+    "groups": [
+      "syslog",
+      "sshd",
+      "authentication_failures"
+    ],
+    "frequency": 8,
+    "firedtimes": 1
+  },
+  "agent": {
+    "id": "001",
+    "name": "linux-lab-01"
+  },
+  "data": {
+    "srcip": "198.51.100.77",
+    "dstuser": "admin"
+  },
+  "full_log": "Oct  3 01:20:00 linux-lab-01 sshd[2299]: Failed password for invalid user admin from 198.51.100.77 port 40099 ssh2",
+  "previous_output": "Oct  3 01:14:10 linux-lab-01 sshd[2200]: Failed password for invalid user admin from 198.51.100.77 port 40000 ssh2\nOct  3 01:14:13 linux-lab-01 sshd[2201]: Failed password for invalid user oracle from 198.51.100.77 port 40001 ssh2\nOct  3 01:14:16 linux-lab-01 sshd[2202]: Failed password for invalid user admin from 198.51.100.77 port 40002 ssh2\nOct  3 01:14:19 linux-lab-01 sshd[2203]: Failed password for invalid user test from 198.51.100.77 port 40003 ssh2\nOct  3 01:14:22 linux-lab-01 sshd[2204]: Failed password for invalid user admin from 198.51.100.77 port 40004 ssh2\nOct  3 01:14:25 linux-lab-01 sshd[2205]: Failed password for invalid user oracle from 198.51.100.77 port 40005 ssh2\nOct  3 01:15:28 linux-lab-01 sshd[2206]: Failed password for invalid user admin from 198.51.100.77 port 40006 ssh2\nOct  3 01:15:31 linux-lab-01 sshd[2207]: Failed password for invalid user test from 198.51.100.77 port 40007 ssh2\nOct  3 01:15:34 linux-lab-01 sshd[2208]: Failed password for invalid user root from 198.51.100.77 port 40008 ssh2\nOct  3 01:15:37 linux-lab-01 sshd[2209]: Failed password for invalid user admin from 198.51.100.77 port 40009 ssh2\nOct  3 01:15:40 linux-lab-01 sshd[2210]: Failed password for invalid user oracle from 198.51.100.77 port 40010 ssh2"
+}

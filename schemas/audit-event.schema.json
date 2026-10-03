@@ -1,0 +1,85 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://phishing-soar.invalid/schemas/audit-event.schema.json",
+  "title": "Audit ledger event v1",
+  "description": "One line of data/runtime/audit/events-YYYY-MM.jsonl. event_hash = sha256 of the canonical JSON of the event without event_hash; prev_event_hash links to the previous ledger event.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version", "event_id", "case_id", "sequence", "event_type", "occurred_at", "actor", "source",
+    "status", "input_artifact_hashes", "score", "decision", "action", "enrichment_health", "details",
+    "prev_event_hash", "event_hash"
+  ],
+  "properties": {
+    "schema_version": {"const": "1.0"},
+    "event_id": {"$ref": "#/$defs/uuid"},
+    "case_id": {"$ref": "#/$defs/uuid"},
+    "sequence": {"type": "integer", "minimum": 1},
+    "event_type": {
+      "enum": [
+        "received", "normalized", "enriched", "scored", "approval_requested", "decision", "action",
+        "rollback", "notification", "closed", "error", "duplicate_suppressed"
+      ]
+    },
+    "occurred_at": {"type": "string", "pattern": "^\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}(\\.\\d{3})?Z$"},
+    "actor": {
+      "type": "object",
+      "required": ["type", "id"],
+      "properties": {"type": {"enum": ["system", "analyst"]}, "id": {"type": "string"}, "display": {"type": "string"}}
+    },
+    "source": {
+      "type": "object",
+      "properties": {
+        "type": {"enum": ["email", "wazuh"]},
+        "event_id": {"type": "string"},
+        "shuffle_execution_id": {"type": ["string", "null"]}
+      }
+    },
+    "status": {"type": ["string", "null"]},
+    "input_artifact_hashes": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["algorithm", "value", "kind"],
+        "properties": {"algorithm": {"const": "sha256"}, "value": {"type": "string", "pattern": "^[0-9a-f]{64}$"}}
+      }
+    },
+    "score": {
+      "anyOf": [
+        {"type": "null"},
+        {
+          "type": "object",
+          "required": ["total", "band", "model_version", "factors"],
+          "properties": {
+            "total": {"type": "integer", "minimum": 0, "maximum": 100},
+            "band": {"enum": ["low", "medium", "high"]},
+            "model_version": {"enum": ["email-1.0", "wazuh-1.0"]},
+            "factors": {
+              "type": "array",
+              "items": {"type": "object", "required": ["id", "evidence", "points", "source"]}
+            }
+          }
+        }
+      ]
+    },
+    "decision": {"type": ["object", "null"]},
+    "action": {
+      "anyOf": [
+        {"type": "null"},
+        {
+          "type": "object",
+          "required": ["action_id", "rollback_id", "type", "target", "scope", "adapter", "mode", "result", "verified"],
+          "properties": {"mode": {"const": "simulate"}}
+        }
+      ]
+    },
+    "enrichment_health": {"type": "object"},
+    "details": {"type": "object"},
+    "prev_event_hash": {"anyOf": [{"type": "null"}, {"$ref": "#/$defs/hash"}]},
+    "event_hash": {"$ref": "#/$defs/hash"}
+  },
+  "$defs": {
+    "uuid": {"type": "string", "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$"},
+    "hash": {"type": "string", "pattern": "^sha256:[0-9a-f]{64}$"}
+  }
+}

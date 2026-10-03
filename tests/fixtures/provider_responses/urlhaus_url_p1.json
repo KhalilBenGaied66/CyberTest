@@ -1,0 +1,21 @@
+{
+  "query_status": "ok",
+  "id": "9000001",
+  "urlhaus_reference": "https://urlhaus.abuse.ch/url/9000001/",
+  "url": "https://xn--prtal-example-i7k.test/login?session=8f2a",
+  "url_status": "online",
+  "host": "xn--prtal-example-i7k.test",
+  "date_added": "2026-10-02 22:10:05 UTC",
+  "threat": "malware_download",
+  "blacklists": {
+    "spamhaus_dbl": "not listed",
+    "surbl": "not listed"
+  },
+  "reporter": "lab-fixture",
+  "larted": "false",
+  "tags": [
+    "lab-fixture",
+    "credential-phish"
+  ],
+  "payloads": []
+}

@@ -1,0 +1,27 @@
+<!--
+  REFERENCE ONLY - not wired to the Python response adapter yet.
+
+  RESPONSE_MODE=simulate is the only implemented mode in this repository. This is the
+  intended shape of the planned "real lab" mode: a stateful, time-limited block applied
+  only on the one affected test agent, never with <location>all</location>.
+
+  Wazuh's firewall-drop script supports add/delete with a timeout. Before enabling,
+  confirm on your Wazuh version how an approved block is triggered (rule-driven via a
+  SOAR-written event, or the manager API PUT /active-response on a single agent) and how
+  the delete is verified, then implement src/phishing_soar/response/wazuh_timed_block.py
+  with the same receipt contract as SimulatedBlocklist.
+-->
+<command>
+  <name>soar-lab-block</name>
+  <executable>firewall-drop</executable>
+  <timeout_allowed>yes</timeout_allowed>
+</command>
+
+<active-response>
+  <disabled>yes</disabled>
+  <command>soar-lab-block</command>
+  <location>defined-agent</location>
+  <agent_id>001</agent_id>
+  <rules_id>100190</rules_id>
+  <timeout>3600</timeout>
+</active-response>

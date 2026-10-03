@@ -1,0 +1,35 @@
+{
+  "schema_version": "1.0",
+  "source": "wazuh",
+  "sent_at": "2026-10-03T01:18:24Z",
+  "alert": {
+    "id": "1759454304.88421",
+    "timestamp": "2026-10-03T01:18:22.000+0000",
+    "manager": {
+      "name": "wazuh-lab-manager"
+    },
+    "rule": {
+      "level": 12,
+      "description": "sshd: authentication success after brute force (SOAR lab)",
+      "groups": [
+        "sshd",
+        "authentication_success",
+        "soar_lab"
+      ],
+      "firedtimes": 1
+    },
+    "agent": {
+      "id": "001",
+      "name": "linux-lab-01",
+      "ip": "10.0.10.21"
+    },
+    "data": {
+      "srcip": "198.51.100.44",
+      "dstuser": "root",
+      "authentication_failures_5m": 18,
+      "distinct_users_5m": 3,
+      "success_after_failures": true
+    },
+    "full_log": "Oct  3 01:18:22 linux-lab-01 sshd[2211]: Accepted password for root from 198.51.100.44 port 51122 ssh2"
+  }
+}

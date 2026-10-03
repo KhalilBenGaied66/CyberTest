@@ -1,0 +1,123 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://phishing-soar.invalid/schemas/normalized-case.schema.json",
+  "title": "NormalizedCase v1",
+  "description": "Source-independent case produced by both intake workflows (email and Wazuh).",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version", "case_id", "source_type", "source_event_id", "received_at", "observed_at",
+    "status", "entities", "indicators", "evidence", "parse_warnings", "dedupe_key", "raw_ref"
+  ],
+  "properties": {
+    "schema_version": {"const": "1.0"},
+    "case_id": {"$ref": "#/$defs/uuid"},
+    "source_type": {"enum": ["email", "wazuh"]},
+    "source_event_id": {"type": "string", "minLength": 1, "maxLength": 512},
+    "received_at": {"$ref": "#/$defs/timestamp"},
+    "observed_at": {"anyOf": [{"$ref": "#/$defs/timestamp"}, {"type": "null"}]},
+    "status": {"enum": ["normalized", "parse_partial"]},
+    "entities": {
+      "type": "object",
+      "required": ["reporter", "user", "agent"],
+      "properties": {
+        "reporter": {"type": ["string", "null"]},
+        "reported_at": {"anyOf": [{"$ref": "#/$defs/timestamp"}, {"type": "null"}]},
+        "user": {"type": ["string", "null"]},
+        "agent": {
+          "anyOf": [
+            {"type": "null"},
+            {"type": "object", "properties": {"id": {"type": ["string", "null"]}, "name": {"type": ["string", "null"]}}}
+          ]
+        },
+        "sender": {"type": ["string", "null"]}
+      }
+    },
+    "indicators": {"type": "array", "items": {"$ref": "#/$defs/indicator"}},
+    "evidence": {
+      "type": "object",
+      "minProperties": 1,
+      "maxProperties": 1,
+      "properties": {
+        "email": {
+          "type": "object",
+          "required": ["message_sha256", "authentication", "received", "urls", "attachments", "credential_phrases"],
+          "properties": {
+            "message_sha256": {"$ref": "#/$defs/sha256"},
+            "authentication": {
+              "type": "object",
+              "required": ["trust", "spf", "dkim", "dmarc"],
+              "properties": {"trust": {"enum": ["trusted", "assumed_topmost", "untrusted", "absent"]}}
+            },
+            "received": {"type": "array"},
+            "urls": {"type": "array"},
+            "attachments": {
+              "type": "array",
+              "items": {
+                "type": "object",
+                "required": ["filename", "declared_mime", "size", "sha256", "flags"],
+                "properties": {"sha256": {"$ref": "#/$defs/sha256"}, "flags": {"type": "array", "items": {"type": "string"}}}
+              }
+            },
+            "credential_phrases": {"type": "array", "items": {"type": "string"}}
+          }
+        },
+        "wazuh": {
+          "type": "object",
+          "required": ["rule", "agent", "source_ip", "user", "behavior"],
+          "properties": {
+            "rule": {"type": "object", "required": ["id", "level"]},
+            "behavior": {
+              "type": "object",
+              "required": ["authentication_failures_5m", "distinct_users_5m", "success_after_failures", "counts_source"]
+            }
+          }
+        }
+      }
+    },
+    "parse_warnings": {"type": "array", "items": {"type": "string"}},
+    "dedupe_key": {"$ref": "#/$defs/sha256"},
+    "raw_ref": {
+      "type": "object",
+      "required": ["path", "sha256", "size", "kind"],
+      "properties": {
+        "path": {"type": "string"},
+        "sha256": {"$ref": "#/$defs/sha256"},
+        "size": {"type": "integer", "minimum": 1},
+        "kind": {"enum": ["eml", "wazuh_alert"]}
+      }
+    }
+  },
+  "$defs": {
+    "uuid": {"type": "string", "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$"},
+    "sha256": {"type": "string", "pattern": "^[0-9a-f]{64}$"},
+    "timestamp": {"type": "string", "pattern": "^\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}(\\.\\d{3})?Z$"},
+    "indicator": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "indicator_id", "type", "value", "normalized_value", "display_value", "safe_display", "sha256",
+        "origin", "first_seen_in", "occurrences", "scope", "is_public", "external_lookup_allowed",
+        "scoring_eligible", "allowlisted", "extraction_warning"
+      ],
+      "properties": {
+        "indicator_id": {"type": "string", "pattern": "^ind-[0-9a-f]{16}$"},
+        "type": {"enum": ["url", "domain", "ip", "email", "sha256"]},
+        "value": {"type": "string", "maxLength": 2048},
+        "normalized_value": {"type": "string", "minLength": 1},
+        "display_value": {"type": "string"},
+        "safe_display": {"type": "string"},
+        "sha256": {"$ref": "#/$defs/sha256"},
+        "origin": {"enum": ["header", "received", "body", "attachment", "wazuh"]},
+        "first_seen_in": {"type": "string"},
+        "occurrences": {"type": "array", "items": {"type": "string"}, "minItems": 1},
+        "scope": {"type": "string"},
+        "is_public": {"type": ["boolean", "null"]},
+        "external_lookup_allowed": {"type": "boolean"},
+        "scoring_eligible": {"type": "boolean"},
+        "allowlisted": {"type": "boolean"},
+        "extraction_warning": {"type": ["string", "null"]}
+      }
+    }
+  }
+}

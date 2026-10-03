@@ -1,0 +1,15 @@
+{
+  "_comment": "Lab policy for the synthetic fixtures. All domains and IPs are reserved/documentation values. Review every list before pointing the playbook at real traffic.",
+  "internal_domains": ["lab.example"],
+  "protected_display_names": ["lab corp", "lab it helpdesk", "lab security team"],
+  "allowlist_domains": ["partner-portal.example"],
+  "allowlist_networks": ["203.0.113.200/32"],
+  "protected_networks": ["10.0.0.0/8", "172.16.0.0/12", "192.168.0.0/16", "203.0.113.1/32"],
+  "protected_domains": ["lab.example"],
+  "trusted_authserv_ids": ["mx.lab.example"],
+  "trusted_mta_hosts": ["mx.lab.example", "mailstore.lab.example"],
+  "privileged_users": ["root", "admin", "administrator"],
+  "service_account_prefixes": ["svc-", "svc_"],
+  "critical_internet_facing_assets": ["web-lab-01"],
+  "watchlist_networks": ["203.0.113.128/25"]
+}

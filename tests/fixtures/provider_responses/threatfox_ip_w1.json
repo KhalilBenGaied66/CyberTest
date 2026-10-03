@@ -1,0 +1,23 @@
+{
+  "query_status": "ok",
+  "data": [
+    {
+      "id": "8000002",
+      "ioc": "198.51.100.44:22",
+      "threat_type": "botnet_cc",
+      "threat_type_desc": "Botnet C&C",
+      "ioc_type": "ip:port",
+      "malware": "unix.lab_fixture_bruteforcer",
+      "malware_printable": "LabFixtureBruteforcer",
+      "confidence_level": 80,
+      "first_seen": "2026-09-28 10:00:00 UTC",
+      "last_seen": "2026-10-02 23:00:00 UTC",
+      "reference": null,
+      "reporter": "lab-fixture",
+      "tags": [
+        "lab-fixture",
+        "ssh"
+      ]
+    }
+  ]
+}
